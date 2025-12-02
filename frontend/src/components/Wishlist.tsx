@@ -13,7 +13,14 @@ const Wishlist: React.FC<WishlistProps> = ({ name, items }) => {
       <h2 className="text-3xl font-bold text-base-content mb-6">{name}</h2>
       <div className="space-y-4">
         {items.map((item, index) => (
-          <WishlistItem key={index} name={item.name} link={item.link} price={item.price} />
+          <WishlistItem
+            key={index}
+            name={item.name}
+            link={item.link}
+            price={item.price}
+            bought={item.bought}
+            received={item.received}
+          />
         ))}
       </div>
     </div>
