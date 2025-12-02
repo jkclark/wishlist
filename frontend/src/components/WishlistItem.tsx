@@ -1,7 +1,13 @@
-import type { WishlistItemData } from "@wishlist/common";
 import React from "react";
 
-const WishlistItem: React.FC<WishlistItemData> = ({ name, link, price, bought, received }) => {
+import type { WishlistItemData } from "@wishlist/common";
+import type { WishlistMode } from "../App";
+
+interface WishlistItemProps extends WishlistItemData {
+  mode: WishlistMode;
+}
+
+const WishlistItem: React.FC<WishlistItemProps> = ({ mode, name, link, price, bought, received }) => {
   return (
     <div className="card bg-base-100 shadow-md p-4 mb-4">
       <div className="flex items-center justify-between gap-4">
@@ -16,12 +22,16 @@ const WishlistItem: React.FC<WishlistItemData> = ({ name, link, price, bought, r
         <div className="flex-shrink-0 text-right">
           <span className="text-lg font-bold text-primary">${price.toFixed(2)}</span>
         </div>
-        <div className="flex-shrink-0 text-right">
-          <span className="text-lg font-bold">Bought? {bought ? "Yes" : "No"}</span>
-        </div>
-        <div className="flex-shrink-0 text-right">
-          <span className="text-lg font-bold">Received? {received ? "Yes" : "No"}</span>
-        </div>
+        {mode === "gifter" && (
+          <div className="flex-shrink-0 text-right">
+            <span className="text-lg font-bold">Bought? {bought ? "Yes" : "No"}</span>
+          </div>
+        )}
+        {mode === "owner" && (
+          <div className="flex-shrink-0 text-right">
+            <span className="text-lg font-bold">Received? {received ? "Yes" : "No"}</span>
+          </div>
+        )}
       </div>
     </div>
   );
