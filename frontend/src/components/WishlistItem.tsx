@@ -5,9 +5,40 @@ import type { WishlistMode } from "../App";
 
 interface WishlistItemProps extends WishlistItemData {
   mode: WishlistMode;
+  onUpdate: (updatedItem: WishlistItemData) => Promise<void>;
 }
 
-const WishlistItem: React.FC<WishlistItemProps> = ({ mode, name, link, price, bought, received }) => {
+const WishlistItem: React.FC<WishlistItemProps> = ({
+  mode,
+  name,
+  link,
+  price,
+  bought,
+  received,
+  onUpdate,
+}) => {
+  const handleBoughtChange = async () => {
+    const updatedItem: WishlistItemData = {
+      name,
+      link,
+      price,
+      bought: !bought,
+      received,
+    };
+    await onUpdate(updatedItem);
+  };
+
+  const handleReceivedChange = async () => {
+    const updatedItem: WishlistItemData = {
+      name,
+      link,
+      price,
+      bought,
+      received: !received,
+    };
+    await onUpdate(updatedItem);
+  };
+
   return (
     <tr>
       <td className="font-semibold">{name}</td>
@@ -19,12 +50,12 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ mode, name, link, price, bo
       <td className="font-bold text-primary">${price.toFixed(2)}</td>
       {mode === "gifter" && (
         <td className="text-center">
-          <input type="checkbox" checked={bought} className="checkbox" readOnly />
+          <input type="checkbox" checked={bought} className="checkbox" onChange={handleBoughtChange} />
         </td>
       )}
       {mode === "owner" && (
         <td className="text-center">
-          <input type="checkbox" checked={received} className="checkbox" readOnly />
+          <input type="checkbox" checked={received} className="checkbox" onChange={handleReceivedChange} />
         </td>
       )}
     </tr>

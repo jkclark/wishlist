@@ -30,11 +30,15 @@ function App() {
   }, [wishlistId, wishlistMode, wishlistStore]);
 
   const handleSaveWishlist = async (updatedWishlist: WishlistData) => {
+    // Optimistic update - update UI immediately
+    setWishlistContent(updatedWishlist);
+
     try {
       await wishlistStore.saveWishlist(wishlistId, updatedWishlist);
-      setWishlistContent(updatedWishlist);
     } catch (error) {
       console.error("Failed to save wishlist:", error);
+      // TODO: Revert optimistic update on error
+      // For now, we'll leave the optimistic update in place
     }
   };
 
