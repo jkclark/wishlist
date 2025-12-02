@@ -1,5 +1,6 @@
 import type { WishlistItemData } from "@wishlist/common";
 import { useEffect, useMemo, useState } from "react";
+import DeleteItemModal from "./components/DeleteItemModal";
 import EditItemModal from "./components/EditItemModal";
 import Navbar from "./components/Navbar";
 import Wishlist from "./components/Wishlist";
@@ -27,6 +28,10 @@ function App() {
   // Edit modal state
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<{ item: WishlistItemData; index: number } | null>(null);
+
+  // Delete modal state
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deletingItem, setDeletingItem] = useState<{ name: string; index: number } | null>(null);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -89,6 +94,32 @@ function App() {
     setEditModalOpen(true);
   };
 
+  const handleDeleteItem = (item: WishlistItemData, index: number) => {
+    setDeletingItem({ name: item.name, index });
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!wishlistContent || !deletingItem) return;
+
+    const updatedItems = [...wishlistContent.items];
+    updatedItems.splice(deletingItem.index, 1);
+
+    const updatedWishlist: WishlistData = {
+      name: wishlistContent.name,
+      items: updatedItems,
+    };
+
+    await handleSaveWishlist(updatedWishlist);
+    setDeleteModalOpen(false);
+    setDeletingItem(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModalOpen(false);
+    setDeletingItem(null);
+  };
+
   return (
     <div className="w-full h-dvh flex bg-base-100 flex-0 flex-col">
       {/* For development only */}
@@ -104,6 +135,7 @@ function App() {
           items={wishlistContent.items}
           onSaveWishlist={handleSaveWishlist}
           onEditItem={handleEditItem}
+          onDeleteItem={handleDeleteItem}
           onAddItem={handleAddItem}
         />
       )}
@@ -114,6 +146,13 @@ function App() {
         isEditingNewItem={editingItem === null}
         onClose={handleModalClose}
         onSave={handleModalSave}
+      />
+
+      <DeleteItemModal
+        isOpen={deleteModalOpen}
+        itemName={deletingItem?.name || ""}
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
       />
     </div>
   );

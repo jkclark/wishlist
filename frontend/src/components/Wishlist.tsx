@@ -10,10 +10,19 @@ interface WishlistProps {
   items: WishlistItemData[];
   onSaveWishlist: (updatedWishlist: WishlistData) => Promise<void>;
   onEditItem: (item: WishlistItemData, index: number) => void;
+  onDeleteItem: (item: WishlistItemData, index: number) => void;
   onAddItem: () => void;
 }
 
-const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist, onEditItem, onAddItem }) => {
+const Wishlist: React.FC<WishlistProps> = ({
+  name,
+  mode,
+  items,
+  onSaveWishlist,
+  onEditItem,
+  onDeleteItem,
+  onAddItem,
+}) => {
   const updateItem = async (index: number, updatedItem: WishlistItemData) => {
     const updatedItems = [...items];
     updatedItems[index] = updatedItem;
@@ -40,12 +49,12 @@ const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist, 
         <table className="table">
           <thead>
             <tr>
-              <th className="w-1">{/* Edit column, w-1 forces min width */}</th>
               <th>Name</th>
               <th>Link</th>
               <th>Price</th>
               {mode === "gifter" && <th className="text-center">Bought</th>}
               <th className="text-center">Received</th>
+              <th className="w-1">{/* Edit column, w-1 forces min width */}</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +69,7 @@ const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist, 
                 received={item.received}
                 onUpdate={(updatedItem) => updateItem(index, updatedItem)}
                 onEdit={() => onEditItem(item, index)}
+                onDelete={() => onDeleteItem(item, index)}
                 renderMode="desktop"
               />
             ))}
@@ -80,6 +90,7 @@ const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist, 
             received={item.received}
             onUpdate={(updatedItem) => updateItem(index, updatedItem)}
             onEdit={() => onEditItem(item, index)}
+            onDelete={() => onDeleteItem(item, index)}
             renderMode="mobile"
           />
         ))}
