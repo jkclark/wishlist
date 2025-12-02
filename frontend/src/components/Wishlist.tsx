@@ -18,8 +18,8 @@ const Wishlist: React.FC<WishlistProps> = ({ name, mode, items }) => {
               <th>Name</th>
               <th>Link</th>
               <th>Price</th>
-              {mode === "gifter" && <th>Bought</th>}
-              {mode === "owner" && <th>Received</th>}
+              {mode === "gifter" && <th className="text-center">Bought</th>}
+              {mode === "owner" && <th className="text-center">Received</th>}
             </tr>
           </thead>
           <tbody>

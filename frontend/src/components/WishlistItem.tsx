@@ -18,17 +18,13 @@ const WishlistItem: React.FC<WishlistItemProps> = ({ mode, name, link, price, bo
       </td>
       <td className="font-bold text-primary">${price.toFixed(2)}</td>
       {mode === "gifter" && (
-        <td>
-          <span className={`badge ${bought ? "badge-success" : "badge-neutral"}`}>
-            {bought ? "Yes" : "No"}
-          </span>
+        <td className="text-center">
+          <input type="checkbox" checked={bought} className="checkbox" readOnly />
         </td>
       )}
       {mode === "owner" && (
-        <td>
-          <span className={`badge ${received ? "badge-success" : "badge-neutral"}`}>
-            {received ? "Yes" : "No"}
-          </span>
+        <td className="text-center">
+          <input type="checkbox" checked={received} className="checkbox" readOnly />
         </td>
       )}
     </tr>
