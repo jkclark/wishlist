@@ -9,9 +9,10 @@ interface WishlistProps {
   mode: WishlistMode;
   items: WishlistItemData[];
   onSaveWishlist: (updatedWishlist: WishlistData) => Promise<void>;
+  onEditItem: (item: WishlistItemData, index: number) => void;
 }
 
-const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist }) => {
+const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist, onEditItem }) => {
   const updateItem = async (index: number, updatedItem: WishlistItemData) => {
     const updatedItems = [...items];
     updatedItems[index] = updatedItem;
@@ -31,12 +32,12 @@ const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist }
         <table className="table">
           <thead>
             <tr>
+              <th className="w-1"></th> {/* Edit column, w-1 forces minimum width */}
               <th>Name</th>
               <th>Link</th>
               <th>Price</th>
               {mode === "gifter" && <th className="text-center">Bought</th>}
               <th className="text-center">Received</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -50,6 +51,7 @@ const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist }
                 bought={item.bought}
                 received={item.received}
                 onUpdate={(updatedItem) => updateItem(index, updatedItem)}
+                onEdit={() => onEditItem(item, index)}
               />
             ))}
           </tbody>

@@ -6,6 +6,7 @@ import type { WishlistMode } from "../App";
 interface WishlistItemProps extends WishlistItemData {
   mode: WishlistMode;
   onUpdate: (updatedItem: WishlistItemData) => Promise<void>;
+  onEdit: () => void;
 }
 
 const WishlistItem: React.FC<WishlistItemProps> = ({
@@ -16,6 +17,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
   bought,
   received,
   onUpdate,
+  onEdit,
 }) => {
   const handleBoughtChange = async () => {
     const updatedItem: WishlistItemData = {
@@ -41,6 +43,29 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
 
   return (
     <tr className={received ? "opacity-50" : ""}>
+      {/* Edit button */}
+      <td>
+        {!received && (
+          <button className="btn btn-sm btn-ghost" onClick={onEdit} disabled={received}>
+            {/* Heroicons pencil in square */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+              />
+            </svg>
+          </button>
+        )}
+      </td>
+
       <td className={`font-semibold ${received ? "line-through" : ""}`}>{name}</td>
       <td>
         <a href={link} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm">
@@ -67,27 +92,6 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
           onChange={handleReceivedChange}
           disabled={mode !== "owner"}
         />
-      </td>
-      <td>
-        {!received && (
-          <button className="btn btn-sm btn-ghost" disabled={received}>
-            {/* Heroicons pencil in square */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-              />
-            </svg>
-          </button>
-        )}
       </td>
     </tr>
   );

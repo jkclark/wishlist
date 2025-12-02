@@ -1,5 +1,6 @@
 import type { WishlistItemData } from "@wishlist/common";
 import { useEffect, useMemo, useState } from "react";
+import EditItemModal from "./components/EditItemModal";
 import Navbar from "./components/Navbar";
 import Wishlist from "./components/Wishlist";
 import { DummyWishlistStore } from "./wishlist_storage/DummyWishlistStore";
@@ -17,6 +18,10 @@ function App() {
   const [wishlistId, setWishlistId] = useState<string>("dummy-id");
   const [wishlistMode, setWishlistMode] = useState<WishlistMode | null>("gifter");
   const [wishlistContent, setWishlistContent] = useState<WishlistData | null>(null);
+
+  // Edit modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<{ item: WishlistItemData; index: number } | null>(null);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -42,6 +47,30 @@ function App() {
     }
   };
 
+  const handleEditItem = (item: WishlistItemData, index: number) => {
+    setEditingItem({ item, index });
+    setEditModalOpen(true);
+  };
+
+  const handleModalSave = async (updatedItem: WishlistItemData) => {
+    if (!wishlistContent || !editingItem) return;
+
+    const updatedItems = [...wishlistContent.items];
+    updatedItems[editingItem.index] = updatedItem;
+
+    const updatedWishlist: WishlistData = {
+      name: wishlistContent.name,
+      items: updatedItems,
+    };
+
+    await handleSaveWishlist(updatedWishlist);
+  };
+
+  const handleModalClose = () => {
+    setEditModalOpen(false);
+    setEditingItem(null);
+  };
+
   return (
     <div className="w-full h-dvh flex bg-base-100 flex-0 flex-col">
       <Navbar />
@@ -51,8 +80,17 @@ function App() {
           mode={wishlistMode}
           items={wishlistContent.items}
           onSaveWishlist={handleSaveWishlist}
+          onEditItem={handleEditItem}
         />
       )}
+
+      <EditItemModal
+        isOpen={editModalOpen}
+        item={editingItem?.item}
+        isEditingNewItem={false}
+        onClose={handleModalClose}
+        onSave={handleModalSave}
+      />
     </div>
   );
 }
