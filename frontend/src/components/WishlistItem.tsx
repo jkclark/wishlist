@@ -43,12 +43,16 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
     await onUpdate(updatedItem);
   };
 
+  const shouldStrikeThroughText = (bought: boolean, received: boolean, mode: WishlistMode) => {
+    return (mode === "gifter" && bought) || received;
+  };
+
   if (renderMode === "desktop") {
     return (
       <tr className={received ? "opacity-50" : ""}>
         {/* Edit button */}
         <td>
-          {!received && (
+          {mode === "owner" && !received && (
             <button className="btn btn-sm btn-ghost" onClick={onEdit} disabled={received}>
               {/* Heroicons pencil in square */}
               <svg
@@ -69,7 +73,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
           )}
         </td>
 
-        <td className={`${bought || received ? "line-through" : ""}`}>{name}</td>
+        <td className={`${shouldStrikeThroughText(bought, received, mode) ? "line-through" : ""}`}>{name}</td>
         <td>
           {link && (
             <a href={link} target="_blank" rel="noopener noreferrer" className="link link-primary">
@@ -90,7 +94,9 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
             </a>
           )}
         </td>
-        <td className={`${bought || received ? "line-through" : ""}`}>${price.toFixed(2)}</td>
+        <td className={`${shouldStrikeThroughText(bought, received, mode) ? "line-through" : ""}`}>
+          ${price.toFixed(2)}
+        </td>
         {mode === "gifter" && (
           <td className="text-center">
             <input
@@ -120,8 +126,10 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
     <div className={`card bg-base-200 shadow-sm ${received ? "opacity-50" : ""}`}>
       <div className="card-body p-4">
         <div className="flex justify-between items-center mb-2">
-          <h3 className={`${bought || received ? "line-through" : ""}`}>{name}</h3>
-          {!received && (
+          <h3 className={`${shouldStrikeThroughText(bought, received, mode) ? "line-through" : ""}`}>
+            {name}
+          </h3>
+          {mode === "owner" && !received && (
             <button className="btn btn-sm btn-ghost" onClick={onEdit}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +149,9 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
           )}
         </div>
         <div className="flex justify-between items-center mb-2">
-          <div className={`text-lg ${bought || received ? "line-through" : ""}`}>${price.toFixed(2)}</div>
+          <div className={`text-lg ${shouldStrikeThroughText(bought, received, mode) ? "line-through" : ""}`}>
+            ${price.toFixed(2)}
+          </div>
           {link && (
             <a
               href={link}
