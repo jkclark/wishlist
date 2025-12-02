@@ -15,7 +15,7 @@ function App() {
   const wishlistStore: WishlistStore = useMemo(() => new DummyWishlistStore(), []);
 
   const [wishlistId, setWishlistId] = useState<string>("dummy-id");
-  const [wishlistMode, setWishlistMode] = useState<WishlistMode | null>("owner");
+  const [wishlistMode, setWishlistMode] = useState<WishlistMode | null>("gifter");
   const [wishlistContent, setWishlistContent] = useState<WishlistData | null>(null);
 
   useEffect(() => {
