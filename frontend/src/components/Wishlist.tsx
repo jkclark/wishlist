@@ -32,7 +32,7 @@ const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist, 
         <table className="table">
           <thead>
             <tr>
-              <th className="w-1"></th> {/* Edit column, w-1 forces minimum width */}
+              <th className="w-1">{/* Edit column, w-1 forces min width */}</th>
               <th>Name</th>
               <th>Link</th>
               <th>Price</th>

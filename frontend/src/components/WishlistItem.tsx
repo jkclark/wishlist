@@ -68,11 +68,24 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
 
       <td className={`font-semibold ${received ? "line-through" : ""}`}>{name}</td>
       <td>
-        <a href={link} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm">
-          View Item
+        <a href={link} target="_blank" rel="noopener noreferrer" className="link link-primary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+            />
+          </svg>
         </a>
       </td>
-      <td className="font-bold text-primary">${price.toFixed(2)}</td>
+      <td className="font-bold">${price.toFixed(2)}</td>
       {mode === "gifter" && (
         <td className="text-center">
           <input
