@@ -206,9 +206,9 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
               checked={received}
               className="checkbox checkbox-sm"
               onChange={handleReceivedChange}
-              disabled={false}
+              disabled={mode !== "owner"}
             />
-            <span className="text-sm">Received</span>
+            <span className="text-sm opacity-50">Received</span>
           </label>
           {mode === "owner" && !received && (
             <div className="flex gap-0">
