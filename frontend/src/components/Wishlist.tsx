@@ -35,7 +35,7 @@ const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist }
               <th>Link</th>
               <th>Price</th>
               {mode === "gifter" && <th className="text-center">Bought</th>}
-              {mode === "owner" && <th className="text-center">Received</th>}
+              <th className="text-center">Received</th>
             </tr>
           </thead>
           <tbody>

@@ -23,8 +23,8 @@ export class DummyWishlistStore extends WishlistStore {
         name: "E-Reader",
         link: "https://example.com/ereader",
         price: 129.99,
-        bought: false,
-        received: false,
+        bought: true,
+        received: true,
       },
     ],
   };

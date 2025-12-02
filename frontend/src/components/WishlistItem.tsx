@@ -40,24 +40,34 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
   };
 
   return (
-    <tr>
-      <td className="font-semibold">{name}</td>
+    <tr className={received ? "opacity-50" : ""}>
+      <td className={`font-semibold ${received ? "line-through" : ""}`}>{name}</td>
       <td>
         <a href={link} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm">
           View Item
         </a>
       </td>
-      <td className="font-bold text-primary">${price.toFixed(2)}</td>
+      <td className={`font-bold text-primary ${received ? "" : ""}`}>${price.toFixed(2)}</td>
       {mode === "gifter" && (
         <td className="text-center">
-          <input type="checkbox" checked={bought} className="checkbox" onChange={handleBoughtChange} />
+          <input
+            type="checkbox"
+            checked={bought}
+            className="checkbox"
+            onChange={handleBoughtChange}
+            disabled={received}
+          />
         </td>
       )}
-      {mode === "owner" && (
-        <td className="text-center">
-          <input type="checkbox" checked={received} className="checkbox" onChange={handleReceivedChange} />
-        </td>
-      )}
+      <td className="text-center">
+        <input
+          type="checkbox"
+          checked={received}
+          className="checkbox"
+          onChange={handleReceivedChange}
+          disabled={mode !== "owner"}
+        />
+      </td>
     </tr>
   );
 };
