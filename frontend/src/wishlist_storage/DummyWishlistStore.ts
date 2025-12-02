@@ -30,7 +30,7 @@ export class DummyWishlistStore extends WishlistStore {
         name: "Wireless Headphones HyperX Cloud III S Wireless Headphones",
         link: "https://example.com/headphones",
         price: 99.99,
-        bought: true,
+        bought: false,
         received: false,
       },
       {

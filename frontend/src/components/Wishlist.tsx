@@ -35,54 +35,54 @@ const Wishlist: React.FC<WishlistProps> = ({ name, mode, items, onSaveWishlist, 
         </button>
       </div>
 
-      {/* Desktop */}
-      <div className="space-y-4 md:space-y-0">
-        <div className="hidden md:block overflow-x-auto">
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="w-1">{/* Edit column, w-1 forces min width */}</th>
-                <th>Name</th>
-                <th>Link</th>
-                <th>Price</th>
-                {mode === "gifter" && <th className="text-center">Bought</th>}
-                <th className="text-center">Received</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item, index) => (
-                <WishlistItem
-                  key={index}
-                  mode={mode}
-                  name={item.name}
-                  link={item.link}
-                  price={item.price}
-                  bought={item.bought}
-                  received={item.received}
-                  onUpdate={(updatedItem) => updateItem(index, updatedItem)}
-                  onEdit={() => onEditItem(item, index)}
-                />
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {/* Desktop table view */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              <th className="w-1">{/* Edit column, w-1 forces min width */}</th>
+              <th>Name</th>
+              <th>Link</th>
+              <th>Price</th>
+              {mode === "gifter" && <th className="text-center">Bought</th>}
+              <th className="text-center">Received</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, index) => (
+              <WishlistItem
+                key={index}
+                mode={mode}
+                name={item.name}
+                link={item.link}
+                price={item.price}
+                bought={item.bought}
+                received={item.received}
+                onUpdate={(updatedItem) => updateItem(index, updatedItem)}
+                onEdit={() => onEditItem(item, index)}
+                renderMode="desktop"
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-        {/* Mobile */}
-        <div className="md:hidden space-y-4">
-          {items.map((item, index) => (
-            <WishlistItem
-              key={index}
-              mode={mode}
-              name={item.name}
-              link={item.link}
-              price={item.price}
-              bought={item.bought}
-              received={item.received}
-              onUpdate={(updatedItem) => updateItem(index, updatedItem)}
-              onEdit={() => onEditItem(item, index)}
-            />
-          ))}
-        </div>
+      {/* Mobile card view */}
+      <div className="md:hidden space-y-4">
+        {items.map((item, index) => (
+          <WishlistItem
+            key={index}
+            mode={mode}
+            name={item.name}
+            link={item.link}
+            price={item.price}
+            bought={item.bought}
+            received={item.received}
+            onUpdate={(updatedItem) => updateItem(index, updatedItem)}
+            onEdit={() => onEditItem(item, index)}
+            renderMode="mobile"
+          />
+        ))}
       </div>
     </div>
   );
