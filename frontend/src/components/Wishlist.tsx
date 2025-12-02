@@ -39,9 +39,11 @@ const Wishlist: React.FC<WishlistProps> = ({
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-base-content">{name}</h2>
-        <button className="btn btn-primary btn-sm" onClick={onAddItem}>
-          Add item
-        </button>
+        {mode === "owner" && (
+          <button className="btn btn-primary btn-sm" onClick={onAddItem}>
+            Add item
+          </button>
+        )}
       </div>
 
       {/* Desktop table view */}
