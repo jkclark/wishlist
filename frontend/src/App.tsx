@@ -122,11 +122,6 @@ function App() {
 
   return (
     <div className="w-full h-dvh flex bg-base-100 flex-0 flex-col">
-      {/* For development only */}
-      <button className="btn btn-secondary w-[200px] mx-auto" onClick={toggleMode}>
-        Current mode: {wishlistMode}
-      </button>
-
       <Navbar />
       {wishlistMode && wishlistContent && (
         <Wishlist
@@ -154,6 +149,11 @@ function App() {
         onConfirm={handleDeleteConfirm}
         onCancel={handleDeleteCancel}
       />
+
+      {/* For development only */}
+      <button className="btn btn-secondary w-[200px] mx-auto" onClick={toggleMode}>
+        Current mode: {wishlistMode}
+      </button>
     </div>
   );
 }

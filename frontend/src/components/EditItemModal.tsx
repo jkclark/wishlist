@@ -92,7 +92,7 @@ const EditItemModal: React.FC<EditItemModalProps> = ({ isOpen, item, isEditingNe
 
         <div className="form-control mb-8">
           <label className="label mb-1">
-            <span className="label-text">Price</span>
+            <span className="label-text">Price (optional)</span>
           </label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base-content opacity-60 z-10 pointer-events-none">
@@ -114,7 +114,7 @@ const EditItemModal: React.FC<EditItemModalProps> = ({ isOpen, item, isEditingNe
           <form method="dialog">
             <button className="btn">Cancel</button>
           </form>
-          <button className="btn btn-primary" onClick={handleSave} disabled={!name.trim() || !price.trim()}>
+          <button className="btn btn-primary" onClick={handleSave} disabled={!name.trim()}>
             {isEditingNewItem ? "Add Item" : "Save"}
           </button>
         </div>

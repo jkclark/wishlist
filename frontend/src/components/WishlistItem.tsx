@@ -79,7 +79,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
           )}
         </td>
         <td className={`${shouldStrikeThroughText(bought, received, mode) ? "line-through" : ""}`}>
-          ${price.toFixed(2)}
+          {isNaN(price) || price <= 0 ? "" : `${price.toFixed(2)}`}
         </td>
         {mode === "gifter" && (
           <td className="text-center">
@@ -161,7 +161,7 @@ const WishlistItem: React.FC<WishlistItemProps> = ({
         </div>
         <div className="flex justify-between items-center mb-2">
           <div className={`text-lg ${shouldStrikeThroughText(bought, received, mode) ? "line-through" : ""}`}>
-            ${price.toFixed(2)}
+            {isNaN(price) || price <= 0 ? "$ —" : `$${price.toFixed(2)}`}
           </div>
           {link && (
             <a
