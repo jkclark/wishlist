@@ -4,6 +4,7 @@ import CreateOrLoadWishlistModal from "./components/CreateOrLoadWishlistModal";
 import DeleteItemModal from "./components/DeleteItemModal";
 import EditItemModal from "./components/EditItemModal";
 import Navbar from "./components/Navbar";
+import WelcomeMenu from "./components/WelcomeMenu";
 import Wishlist from "./components/Wishlist";
 import { DummyWishlistStore } from "./wishlist_storage/DummyWishlistStore";
 import type { WishlistStore } from "./wishlist_storage/WishlistStore";
@@ -13,7 +14,7 @@ export type WishlistMode = "owner" | "gifter";
 function App() {
   const wishlistStore: WishlistStore = useMemo(() => new DummyWishlistStore(), []);
 
-  const [wishlistId, setWishlistId] = useState<string | null>("dummy-id");
+  const [wishlistId, setWishlistId] = useState<string | null>(null);
   const [wishlistData, setWishlistData] = useState<WishlistData | null>(null);
   const [wishlistMode, setWishlistMode] = useState<WishlistMode | null>("gifter");
 
@@ -93,7 +94,7 @@ function App() {
     await handleSaveWishlist(updatedWishlist);
   };
 
-  const handleModalClose = () => {
+  const handleEditItemModalClose = () => {
     setEditModalOpen(false);
     setEditingItem(null);
   };
@@ -133,7 +134,7 @@ function App() {
     setDeletingItem(null);
   };
 
-  const handleCreateOrLoadWishlist = () => {
+  const handleCreateOrLoadWishlistModalOpen = () => {
     setCreateOrLoadModalOpen(true);
   };
 
@@ -170,8 +171,15 @@ function App() {
 
   return (
     <div className="w-full h-dvh flex bg-base-100 flex-0 flex-col">
-      <Navbar wishlistName={wishlistData?.name} onNewLoad={handleCreateOrLoadWishlist} />
-      {wishlistMode && wishlistData && (
+      <Navbar wishlistName={wishlistData?.name} onNewLoad={handleCreateOrLoadWishlistModalOpen} />
+
+      {/* Welcome menu shown when no wishlist is loaded */}
+      {(!wishlistId || !wishlistData || !wishlistMode) && (
+        <WelcomeMenu onCreateWishlist={handleCreateWishlist} onLoadWishlist={handleLoadWishlist} />
+      )}
+
+      {/* Wishlist view */}
+      {wishlistId && wishlistData && wishlistMode && (
         <Wishlist
           mode={wishlistMode}
           wishlistData={wishlistData}
@@ -182,11 +190,12 @@ function App() {
         />
       )}
 
+      {/* Modals */}
       <EditItemModal
         isOpen={editModalOpen}
         item={editingItem?.item}
         isEditingNewItem={editingItem === null}
-        onClose={handleModalClose}
+        onClose={handleEditItemModalClose}
         onSave={handleEditModalSave}
       />
 
