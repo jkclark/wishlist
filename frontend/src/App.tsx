@@ -31,7 +31,7 @@ function App() {
   const [deletingItem, setDeletingItem] = useState<{ name: string; index: number } | null>(null);
 
   // Create/Load modal state
-  const [createLoadModalOpen, setCreateLoadModalOpen] = useState(false);
+  const [createOrLoadModalOpen, setCreateOrLoadModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -134,7 +134,7 @@ function App() {
   };
 
   const handleCreateOrLoadWishlist = () => {
-    setCreateLoadModalOpen(true);
+    setCreateOrLoadModalOpen(true);
   };
 
   const handleCreateWishlist = async (name: string) => {
@@ -145,7 +145,7 @@ function App() {
       // Update state with new wishlist
       setWishlistId(newWishlist.id);
       setWishlistData(newWishlist);
-      setCreateLoadModalOpen(false);
+      setCreateOrLoadModalOpen(false);
     } catch (error) {
       console.error("Failed to create wishlist:", error);
       // TODO: Show error message to user
@@ -157,7 +157,7 @@ function App() {
       const data = await wishlistStore.getWishlist(id);
       setWishlistId(id);
       setWishlistData(data);
-      setCreateLoadModalOpen(false);
+      setCreateOrLoadModalOpen(false);
     } catch (error) {
       console.error("Failed to load wishlist:", error);
       // TODO: Show error message to user
@@ -165,7 +165,7 @@ function App() {
   };
 
   const handleCreateOrLoadModalClose = () => {
-    setCreateLoadModalOpen(false);
+    setCreateOrLoadModalOpen(false);
   };
 
   return (
@@ -198,7 +198,7 @@ function App() {
       />
 
       <CreateOrLoadWishlistModal
-        isOpen={createLoadModalOpen}
+        isOpen={createOrLoadModalOpen}
         onClose={handleCreateOrLoadModalClose}
         onCreate={handleCreateWishlist}
         onLoad={handleLoadWishlist}
