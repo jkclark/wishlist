@@ -21,52 +21,53 @@ const NewOrLoadMenu: React.FC<NewOrLoadMenuProps> = ({ onCreateWishlist, onLoadW
     }
   };
 
-  return (
-    <div className="max-w-2xl w-full mx-auto p-3 space-y-4">
-      {/* New Wishlist Section */}
-      <div className="card bg-base-200 shadow-md">
-        <div className="card-body">
-          <h2 className="card-title text-xl mb-4">Create New Wishlist</h2>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Wishlist name:</span>
-            </label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              value={wishlistName}
-              onChange={(e) => setWishlistName(e.target.value)}
-              placeholder="My Birthday Wishlist"
-            />
-          </div>
-          <div className="card-actions justify-end mt-4">
-            <button className="btn btn-primary" onClick={handleCreate} disabled={!wishlistName.trim()}>
-              Create
-            </button>
-          </div>
-        </div>
-      </div>
+  // TODO: Need to lay this out vertically for mobile
 
-      {/* Load Wishlist Section */}
-      <div className="card bg-base-200 shadow-md">
+  return (
+    <div className="max-w-4xl w-full mx-auto h-[300px]">
+      <div className="card h-full">
         <div className="card-body">
-          <h2 className="card-title text-xl mb-4">Load Existing Wishlist</h2>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Wishlist ID:</span>
-            </label>
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              value={wishlistId}
-              onChange={(e) => setWishlistId(e.target.value)}
-              placeholder="Enter wishlist ID or URL"
-            />
-          </div>
-          <div className="card-actions justify-end mt-4">
-            <button className="btn btn-secondary" onClick={handleLoad} disabled={!wishlistId.trim()}>
-              Load
-            </button>
+          <div className="flex justify-between h-full items-center">
+            {/* Load Section */}
+            <div className="flex flex-col gap-6 flex-1 items-center">
+              <label className="label-text text-xl font-medium">Load</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  className="input input-bordered flex-1"
+                  value={wishlistId}
+                  onChange={(e) => setWishlistId(e.target.value)}
+                  placeholder="Enter wishlist ID"
+                />
+                <button className="btn btn-secondary w-20" onClick={handleLoad} disabled={!wishlistId.trim()}>
+                  Load
+                </button>
+              </div>
+            </div>
+
+            {/* Vertical Divider */}
+            <div className="divider divider-horizontal text-lg">OR</div>
+
+            {/* Create Section */}
+            <div className="flex flex-col gap-6 items-center flex-1">
+              <label className="label-text text-xl font-medium">Create</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  className="input input-bordered flex-1"
+                  value={wishlistName}
+                  onChange={(e) => setWishlistName(e.target.value)}
+                  placeholder="My Birthday Wishlist"
+                />
+                <button
+                  className="btn btn-primary w-20"
+                  onClick={handleCreate}
+                  disabled={!wishlistName.trim()}
+                >
+                  Create
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

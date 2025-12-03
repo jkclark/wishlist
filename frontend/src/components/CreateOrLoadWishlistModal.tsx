@@ -52,11 +52,9 @@ const CreateOrLoadWishlistModal: React.FC<CreateOrLoadWishlistModalProps> = ({
   return (
     <dialog ref={dialogRef} className="modal">
       <div className="modal-box max-w-4xl">
-        <h3 className="font-bold text-lg mb-6">Wishlist</h3>
-
         <NewOrLoadMenu onCreateWishlist={handleCreate} onLoadWishlist={handleLoad} />
 
-        <div className="modal-action">
+        <div className="modal-action mt-0">
           <form method="dialog">
             <button className="btn" onClick={onClose}>
               Cancel

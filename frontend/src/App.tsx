@@ -214,7 +214,7 @@ function App() {
       />
 
       {/* For development only */}
-      <button className="btn btn-secondary w-[200px] mx-auto" onClick={toggleMode}>
+      <button className="btn btn-accent w-[200px] mx-auto" onClick={toggleMode}>
         Current mode: {wishlistMode}
       </button>
     </div>
