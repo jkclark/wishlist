@@ -135,11 +135,10 @@ function App() {
   const handleCreateWishlist = async (name: string) => {
     try {
       // Create wishlist using the store and get the new ID
-      const newWishlist = await wishlistStore.createWishlist(name);
+      const newWishlistId = await wishlistStore.createWishlist(name);
 
       // Update state with new wishlist
-      setWishlistId(newWishlist.id);
-      setWishlistData(newWishlist);
+      setWishlistId(newWishlistId);
       setWishlistMode("owner"); // Assume creator is the owner
     } catch (error) {
       console.error("Failed to create wishlist:", error);

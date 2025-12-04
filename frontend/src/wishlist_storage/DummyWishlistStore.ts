@@ -51,19 +51,16 @@ export class DummyWishlistStore extends WishlistStore {
     ],
   };
 
-  async createWishlist(name: string): Promise<WishlistData> {
+  async createWishlist(name: string): Promise<string> {
     console.log(`DummyWishlistStore: Creating wishlist with name: ${name}`);
 
     // Simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    const dummyWishlist: WishlistData = {
-      id: "new-dummy-wishlist-id",
-      name,
-      items: [],
-    };
-    console.log(`DummyWishlistStore: Created wishlist with id: ${dummyWishlist.id}`);
-    return dummyWishlist;
+    const newWishlistId = "new-dummy-wishlist-id";
+    console.log(`DummyWishlistStore: Created wishlist with id: ${newWishlistId}`);
+
+    return newWishlistId;
   }
 
   async getWishlist(id: string): Promise<WishlistData> {
@@ -75,6 +72,14 @@ export class DummyWishlistStore extends WishlistStore {
 
     // Simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 100));
+
+    if (id === "new-dummy-wishlist-id") {
+      return {
+        id: "new-dummy-wishlist-id",
+        name: "New Blank Wishlist",
+        items: [],
+      };
+    }
 
     return { ...this.dummyWishlist };
   }
