@@ -21,6 +21,7 @@ const Wishlist: React.FC<WishlistProps> = ({
   onDeleteItem,
   onAddItem,
 }) => {
+  const wishlistHasItems = wishlistData.items.length > 0;
   const updateItem = async (index: number, updatedItem: WishlistItemData) => {
     const updatedItems = [...wishlistData.items];
     updatedItems[index] = updatedItem;
@@ -36,13 +37,15 @@ const Wishlist: React.FC<WishlistProps> = ({
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-6">
-      <div className="mb-4">
-        {mode === "owner" && (
-          <button className="btn btn-primary btn-sm" onClick={onAddItem}>
-            Add item
-          </button>
-        )}
-      </div>
+      {wishlistHasItems && (
+        <div className="mb-4">
+          {mode === "owner" && (
+            <button className="btn btn-primary btn-sm" onClick={onAddItem}>
+              Add Item
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Desktop table view */}
       <div className="hidden md:block overflow-x-auto">
@@ -58,42 +61,60 @@ const Wishlist: React.FC<WishlistProps> = ({
             </tr>
           </thead>
           <tbody>
-            {wishlistData.items.map((item, index) => (
-              <WishlistItem
-                key={index}
-                mode={mode}
-                name={item.name}
-                link={item.link}
-                price={item.price}
-                bought={item.bought}
-                received={item.received}
-                onUpdate={(updatedItem) => updateItem(index, updatedItem)}
-                onEdit={() => onEditItem(item, index)}
-                onDelete={() => onDeleteItem(item, index)}
-                renderMode="desktop"
-              />
-            ))}
+            {wishlistHasItems &&
+              wishlistData.items.map((item, index) => (
+                <WishlistItem
+                  key={index}
+                  mode={mode}
+                  name={item.name}
+                  link={item.link}
+                  price={item.price}
+                  bought={item.bought}
+                  received={item.received}
+                  onUpdate={(updatedItem) => updateItem(index, updatedItem)}
+                  onEdit={() => onEditItem(item, index)}
+                  onDelete={() => onDeleteItem(item, index)}
+                  renderMode="desktop"
+                />
+              ))}
           </tbody>
         </table>
+        {!wishlistHasItems && (
+          <div className="flex flex-col items-center gap-4 mt-4">
+            <div className="text-center text-gray-500">This wishlist has no items!</div>
+            <button className="btn btn-primary w-30" onClick={onAddItem}>
+              Add an item
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Mobile card view */}
       <div className="md:hidden space-y-4">
-        {wishlistData.items.map((item, index) => (
-          <WishlistItem
-            key={index}
-            mode={mode}
-            name={item.name}
-            link={item.link}
-            price={item.price}
-            bought={item.bought}
-            received={item.received}
-            onUpdate={(updatedItem) => updateItem(index, updatedItem)}
-            onEdit={() => onEditItem(item, index)}
-            onDelete={() => onDeleteItem(item, index)}
-            renderMode="mobile"
-          />
-        ))}
+        {!wishlistHasItems && (
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-center text-gray-500">This wishlist has no items!</div>
+            <button className="btn btn-primary w-30" onClick={onAddItem}>
+              Add an item
+            </button>
+          </div>
+        )}
+        {wishlistHasItems &&
+          wishlistData.items.map((item, index) => (
+            <WishlistItem
+              key={index}
+              mode={mode}
+              name={item.name}
+              link={item.link}
+              price={item.price}
+              bought={item.bought}
+              received={item.received}
+              onUpdate={(updatedItem) => updateItem(index, updatedItem)}
+              onEdit={() => onEditItem(item, index)}
+              onDelete={() => onDeleteItem(item, index)}
+              renderMode="mobile"
+            />
+          ))}
       </div>
     </div>
   );
