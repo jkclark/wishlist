@@ -10,21 +10,54 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ wishlistId, wishlistName, onNewLoad, showNavbarContents }) => {
   return (
     <div className="navbar bg-base-100">
-      <div className="flex-1 items-center flex gap-2">
+      {/* Left side - Wishlist name */}
+      <div className="navbar-start flex-1">
         {showNavbarContents && wishlistName && (
-          <span className="font-medium text-xl px-4">{wishlistName}</span>
-        )}
-        {showNavbarContents && wishlistId && (
-          <span className="text-md opacity-50 text-center">ID: {wishlistId}</span>
+          <span className="font-medium text-lg md:text-xl px-4">{wishlistName}</span>
         )}
       </div>
-      {showNavbarContents && (
-        <div className="flex-none">
-          <button className="btn btn-primary" onClick={onNewLoad}>
-            New/Load Wishlist
-          </button>
-        </div>
-      )}
+
+      {/* Right side - hamburger menu on mobile, button on desktop */}
+      <div className="navbar-end flex-0">
+        {showNavbarContents && (
+          <>
+            {/* Mobile hamburger menu */}
+            <div className="dropdown dropdown-end md:hidden">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                  />
+                </svg>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 border rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              >
+                <li>
+                  <button className="btn btn-primary" onClick={onNewLoad}>
+                    New/Load Wishlist
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Desktop menu */}
+            <button className="btn btn-primary hidden md:flex" onClick={onNewLoad}>
+              New/Load Wishlist
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
