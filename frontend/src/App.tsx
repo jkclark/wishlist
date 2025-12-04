@@ -161,6 +161,7 @@ function App() {
   return (
     <div className="w-full h-dvh flex bg-base-100 flex-0 flex-col">
       <Navbar
+        wishlistId={wishlistData?.id}
         wishlistName={wishlistData?.name}
         onNewLoad={resetWishlistState}
         showNavbarContents={!!(wishlistId && wishlistData && wishlistMode)}
