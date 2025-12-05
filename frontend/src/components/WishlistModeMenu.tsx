@@ -33,7 +33,7 @@ const WishlistModeMenu: React.FC<WishlistModeMenuProps> = ({
                 className="btn btn-secondary flex-1"
                 onClick={() => onSelectMode("gifter")}
               >
-                I'm buying a gift
+                I'm giving a gift
               </button>
             </div>
           </div>
