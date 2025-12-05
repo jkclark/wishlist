@@ -39,7 +39,7 @@ Resources:
       FunctionName: CreateWishlist
       CodeUri: backend/lambda-package.zip
       Handler: CreateWishlist.handler
-      Description: Lambda function to list S3 bucket contents
+      Description: Lambda function to create wishlists in S3
       Environment:
         Variables:
           NODE_ENV: !Ref Environment
@@ -49,7 +49,7 @@ Resources:
               Effect: Allow
               Action:
                 - s3:PutObject
-                - s3:HeadObject
+                - s3:GetObject
               Resource:
                 - "arn:aws:s3:::wishlist-wishlists/*"
             - Sid: S3BucketAccess

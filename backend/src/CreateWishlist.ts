@@ -53,7 +53,6 @@ export const handler = async (
 
     while (attempts < maxAttempts) {
       randomId = generateRandomId();
-      // randomId = "1764961784497"; // to test duplicate handling
       fileName = `${randomId}.json`;
       attempts++;
 
@@ -66,29 +65,35 @@ export const handler = async (
           })
         );
 
-        // If we get here, the object exists - try again if we have attempts left
-        if (attempts >= maxAttempts) {
-          return {
-            statusCode: 500,
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-            body: JSON.stringify({
-              message: "Failed to generate unique ID after maximum attempts",
-              attempts: maxAttempts,
-            }),
-          };
-        }
-        // Continue loop to try again
+        // If we get here, the object exists - continue loop to try again
+        console.log(`Object ${fileName} exists, trying again (attempt ${attempts}/${maxAttempts})`);
       } catch (error: any) {
-        // If error is NotFound, that's what we want - object doesn't exist
-        if (error.name === "NotFound") {
+        // If error is NotFound or NoSuchKey with 404, that's what we want - object doesn't exist
+        if (
+          error.name === "NotFound" ||
+          error.name === "NoSuchKey" ||
+          error.$metadata?.httpStatusCode === 404
+        ) {
           break; // Exit the loop, we found a unique ID
         } else {
-          throw error; // Re-throw other errors
+          throw error; // Re-throw other unexpected errors
         }
       }
+    }
+
+    // If we exit the loop without finding a unique ID, return error
+    if (attempts >= maxAttempts) {
+      return {
+        statusCode: 500,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          message: "Failed to generate unique ID after maximum attempts",
+          attempts: maxAttempts,
+        }),
+      };
     }
 
     // Create WishlistData object
