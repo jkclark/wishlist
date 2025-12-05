@@ -8,6 +8,10 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ wishlistId, wishlistName, onNewLoad, showNavbarContents }) => {
+  // For now, don't do anything with ID. This console.log is here to allow
+  // the build to succeed without "unused variable" errors.
+  console.log("Rendering navbar with wishlist ID:", wishlistId);
+
   return (
     <div className="navbar bg-base-100">
       {/* Left side - Wishlist name */}
