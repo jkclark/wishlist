@@ -14,6 +14,9 @@
     "test": "npm test --workspaces",
     "frontend:dev": "npm run dev --workspace=frontend",
     "frontend:build": "npm run build --workspace=frontend",
+    "backend:dev": "npm run dev --workspace=backend",
+    "backend:build": "npm run build --workspace=backend",
+    "backend:start": "npm run start --workspace=backend",
     "common:build": "npm run build --workspace=common",
     "common:dev": "npm run dev --workspace=common"
   },

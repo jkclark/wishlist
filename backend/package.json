@@ -1,0 +1,26 @@
+{
+    "name": "@wishlist/backend",
+    "version": "1.0.0",
+    "description": "Wishlist backend API server",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "package": "npm run clean && npm run build && npm run prepare-deps && cd dist && zip -r ../lambda-package.zip .",
+        "prepare-deps": "cp package.json dist/ && mkdir -p dist/node_modules/@wishlist && cp -r ../common/dist dist/node_modules/@wishlist/common && cp ../common/package.json dist/node_modules/@wishlist/common/ && cd dist && npm install --production",
+        "dev": "tsc --watch",
+        "clean": "rm -rf dist"
+    },
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.0.0",
+        "@types/aws-lambda": "^8.10.0",
+        "@wishlist/common": "*",
+        "unique-names-generator": "^4.7.1"
+    },
+    "devDependencies": {
+        "@types/node": "^24.10.1",
+        "typescript": "^5.3.0"
+    },
+    "files": [
+        "dist"
+    ]
+}

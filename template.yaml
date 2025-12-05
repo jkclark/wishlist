@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Wishlist Backend
+
+  SAM Template for Wishlist backend Lambda functions
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 128
+    Runtime: nodejs18.x
+    Architectures:
+      - x86_64
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    Description: Environment name
+
+Resources:
+  WishlistHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: Prod
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowHeaders:
+          - "*"
+        AllowMethods:
+          - "*"
+
+  CreateWishlistFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CreateWishlist
+      CodeUri: backend/lambda-package.zip
+      Handler: CreateWishlist.handler
+      Description: Lambda function to list S3 bucket contents
+      Environment:
+        Variables:
+          NODE_ENV: !Ref Environment
+      Policies:
+        - Statement:
+            - Sid: S3BucketPermissions
+              Effect: Allow
+              Action:
+                - s3:PutObject
+                - s3:HeadObject
+              Resource:
+                - "arn:aws:s3:::wishlist-wishlists/*"
+            - Sid: S3BucketAccess
+              Effect: Allow
+              Action:
+                - s3:ListBucket
+              Resource:
+                - "arn:aws:s3:::wishlist-wishlists"
+      Events:
+        CreateWishlist:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref WishlistHttpApi
+            Path: /wishlists
+            Method: post
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  CreateWishlistApi:
+    Description: "HTTP API endpoint URL for CreateWishlist function"
+    Value: !Sub "https://${WishlistHttpApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/wishlists"
+  CreateWishlistFunction:
+    Description: "CreateWishlist Lambda Function ARN"
+    Value: !GetAtt CreateWishlistFunction.Arn
+  CreateWishlistFunctionIamRole:
+    Description: "Implicit IAM Role created for CreateWishlist function"
+    Value: !GetAtt CreateWishlistFunctionRole.Arn

@@ -1,0 +1,20 @@
+version = 0.1
+
+[default.build]
+[default.build.parameters]
+resolve_s3 = true
+
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "wishlist-backend"
+s3_bucket = ""  # SAM will create a bucket automatically
+s3_prefix = "wishlist-backend"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "Environment=\"dev\""
+image_repositories = []
+resolve_s3 = true
+
+[default.global.parameters]
+region = "us-east-1"

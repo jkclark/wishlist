@@ -11,6 +11,12 @@ dist/
 build/
 out/
 
+# Lambda package
+backend/lambda-package.zip
+
+# AWS SAM
+.aws-sam/
+
 # Environment variables
 .env
 .env.local
